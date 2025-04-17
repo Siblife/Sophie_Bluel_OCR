@@ -1,8 +1,8 @@
-// Sélection de l'élement HTML qui va contenir les projets
+// Selection de l'élement HTML qui va contenir les projets
 const gallery = document.querySelector(".gallery");
 
 // Appel de l'API pour récupérer les projets depuis le serveur et les affiche dynamiquement
-async function API () {fetch("http://localhost:5678/api/works")
+async function apiWorks () {fetch("http://localhost:5678/api/works")
 
   // Puis on transforme la réponse en JSON
   .then((reponse) => reponse.json())
@@ -38,4 +38,4 @@ async function API () {fetch("http://localhost:5678/api/works")
 }
 
 // Une fois la boucle parametrer, on appel la fonction pour lancer l'affichage
-API();
+apiWorks();
