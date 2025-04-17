@@ -35,7 +35,50 @@ async function apiWorks () {fetch("http://localhost:5678/api/works")
         figure.appendChild(figcaption)
     });
   });
+  
 }
 
-// Une fois la boucle parametrer, on appel la fonction pour lancer l'affichage
 apiWorks();
+
+// Une fois la boucle parametrer, on appel la fonction pour lancer l'affichage
+/*async function getworks(){
+  let works;
+  fetch("http://localhost:5678/api/works")
+
+  // Puis on transforme la réponse en JSON
+  .then((reponse) => reponse.json())
+  .then(  works=reponse)
+
+  // Puis on va traiter les données reçues
+  return works;
+}
+async function afficherworks(works){
+  gallery.innerHTML = "";
+
+    //Boucle pour chaque projet reçu de l'API
+    works.forEach((project) => {
+
+      //Création des elements HTML
+      const figure = document.createElement("figure");
+      const img = document.createElement("img");
+      const figcaption = document.createElement("figcaption");
+
+        // Puis on ajoute les données du projet dans les balises
+        img.src = project.imageUrl;
+        img.alt = project.title;
+        figcaption.textContent = project.title;
+    
+        // Pour finir, on construit la structure HTML et on l'insert dans le DOM
+        figure.appendChild(img)
+        gallery.appendChild(figure)
+        figure.appendChild(figcaption)
+    });
+  };
+
+
+
+apiWorks();
+
+const travaux=getworks();
+afficherworks(travaux);*/
+
