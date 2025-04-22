@@ -1,118 +1,83 @@
-// Selection de l'élement HTML qui va contenir les projets
+// Sélection de l'élément HTML qui va contenir les projets
 const gallery = document.querySelector(".gallery");
 const filtre = document.getElementById("filtre");
 
-let allWorks = []; //Variable globale pour stocker tous les projets récupérés depuis l'API
+// Variable globale pour stocker tous les projets récupérés depuis l'API
+let allWorks = [];
 
-// Appel de l'API pour récupérer les projets depuis le serveur et les affiche dynamiquement
-function apiWorks () {fetch("http://localhost:5678/api/works")
+// Fonction pour afficher les projets dans la galerie
+function displayWorks(works) {
+  gallery.innerHTML = ""; // Réinitialiser la galerie avant d'ajouter les nouveaux projets
 
-  // Puis on transforme la réponse en JSON
-  .then((reponse) => reponse.json())
+  works.forEach((project) => {
+    const figure = document.createElement("figure");
+    const img = document.createElement("img");
+    const figcaption = document.createElement("figcaption");
 
-  // Puis on va traiter les données reçues
-  .then((data) => {
+    img.src = project.imageUrl; // URL de l'image du projet
+    img.alt = project.title; // Texte alternatif pour l'image
+    figcaption.textContent = project.title; // Titre du projet
 
-    allWorks = data; // On stocke les projets dans la variable globale pour pouvoir les filtrer plus tard
-
-    // On vérifie la réponse dans la console pour afficher les données, puis après on les affichera dans le DOM
-    console.log(data);
-
-    // On enleve la galerie pour qu'apres on ajoute les projets
-    gallery.innerHTML = "";
-
-    //Boucle pour chaque projet reçu de l'API
-    data.forEach((project) => {
-
-      //Création des elements HTML
-      const figure = document.createElement("figure");
-      const img = document.createElement("img");
-      const figcaption = document.createElement("figcaption");
-
-        // Puis on ajoute les données du projet dans les balises
-        img.src = project.imageUrl;
-        img.alt = project.title;
-        figcaption.textContent = project.title;
-    
-        // Pour finir, on construit la structure HTML et on l'insert dans le DOM
-        figure.appendChild(img)
-        figure.appendChild(figcaption)
-        gallery.appendChild(figure)
-        
-    });
+    // Ajouter les éléments dans la structure de la galerie
+    figure.appendChild(img);
+    figure.appendChild(figcaption);
+    gallery.appendChild(figure);
   });
-  
 }
 
-function apiCategorie() {fetch("http://localhost:5678/api/categories")
-  .then((reponse) => reponse.json())
-  .then((data) => {
-    data.forEach((categorie) => {
-      const btn = document.createElement("button");
-      btn.classList.add("filtre_bouton");
-      btn.textContent = categorie.name;
-      filtre.appendChild(btn);
-    })
-  })
+// Fonction pour récupérer les projets depuis l'API et les afficher dynamiquement
+function apiWorks() {
+  fetch("http://localhost:5678/api/works")
+    .then((reponse) => reponse.json()) // Conversion de la réponse en JSON
+    .then((data) => {
+      allWorks = data; // On stocke les projets dans la variable globale pour pouvoir les filtrer plus tard
+      displayWorks(allWorks); // Afficher tous les projets dans la galerie
+    });
 }
 
+// Fonction pour récupérer les catégories et créer les boutons de filtre
+function apiCategorie() {
+  fetch("http://localhost:5678/api/categories")
+    .then((reponse) => reponse.json()) // Conversion de la réponse en JSON
+    .then((data) => {
+      // Création du bouton "Tous" pour afficher tous les projets
+      const btnTous = document.createElement("button");
+      btnTous.classList.add("filtre_bouton");
+      btnTous.textContent = "Tous";
+      btnTous.dataset.id = "0"; // ID = 0 pour "Tous"
+      filtre.appendChild(btnTous);
 
+      // Création des boutons pour chaque catégorie
+      data.forEach((categorie) => {
+        const btn = document.createElement("button");
+        btn.classList.add("filtre_bouton");
+        btn.textContent = categorie.name; // Nom de la catégorie
+        btn.dataset.id = categorie.id; // ID de la catégorie dans chaque bouton
+        filtre.appendChild(btn);
+      });
 
+      // Ajouter l'événement 'click' sur chaque bouton pour filtrer les projets
+      const boutons = document.querySelectorAll(".filtre_bouton");
+      boutons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const id = button.dataset.id; // Récupère l'ID de la catégorie du bouton
+
+          // Filtre les projets selon l'ID de la catégorie
+          if (id === "0") {
+            // Si "Tous" est sélectionné, on affiche tous les projets
+            displayWorks(allWorks);
+          } else {
+            // Sinon, on filtre les projets de la catégorie sélectionnée
+            const projetsFiltres = allWorks.filter(
+              (work) => work.categoryId === parseInt(id)
+            );
+            displayWorks(projetsFiltres);
+          }
+        });
+      });
+    });
+}
+
+// Appel des fonctions pour charger les projets et les catégories dès le chargement de la page
 apiWorks();
 apiCategorie();
-
-/*async function getworks(){
-  let works;
-  fetch("http://localhost:5678/api/works")
-
-  
-  .then((reponse) => reponse.json())
-  .then(  works=reponse)
-
-  
-  return works;
-}
-async function afficherworks(works){
-  gallery.innerHTML = "";
-
-    
-    works.forEach((project) => {
-
-      
-      const figure = document.createElement("figure");
-      const img = document.createElement("img");
-      const figcaption = document.createElement("figcaption");
-
-        
-        img.src = project.imageUrl;
-        img.alt = project.title;
-        figcaption.textContent = project.title;
-    
-        
-        figure.appendChild(img)
-        gallery.appendChild(figure)
-        figure.appendChild(figcaption)
-    });
-  };
-
-
-  
-
-
-apiWorks();
-
-const travaux=getworks();
-afficherworks(travaux);*/
-
-/*function filtreProjets () {
-  const btnFiltre = document.querySelectorAll(".filtre_bouton");
-  const tab = apiWorks();
-  const retour = [];
-  function filtreTab (categorie) {
-    tab.forEach((projet) => {
-      if (projet.categorie.name === categorie)
-        retour.push (projet);
-    })
-    return retour;
-  }
-}*/
