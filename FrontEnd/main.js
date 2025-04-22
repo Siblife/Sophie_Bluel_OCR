@@ -1,9 +1,8 @@
-// Sélection de l'élément HTML qui va contenir les projets
+// Selection de l'élement HTML qui va contenir les projets
 const gallery = document.querySelector(".gallery");
 const filtre = document.getElementById("filtre");
 
-// Variable globale pour stocker tous les projets récupérés depuis l'API
-let allWorks = [];
+let allWorks = []; //Variable globale pour stocker tous les projets récupérés depuis l'API
 
 // Fonction pour afficher les projets dans la galerie
 function displayWorks(works) {
@@ -25,34 +24,61 @@ function displayWorks(works) {
   });
 }
 
-// Fonction pour récupérer les projets depuis l'API et les afficher dynamiquement
+// Appel de l'API pour récupérer les projets depuis le serveur et les afficher dynamiquement
 function apiWorks() {
   fetch("http://localhost:5678/api/works")
-    .then((reponse) => reponse.json()) // Conversion de la réponse en JSON
-    .then((data) => {
+    
+    .then((reponse) => reponse.json())// Puis on transforme la réponse en JSON
+
+    
+    .then((data) => {// Puis on va traiter les données reçues
       allWorks = data; // On stocke les projets dans la variable globale pour pouvoir les filtrer plus tard
-      displayWorks(allWorks); // Afficher tous les projets dans la galerie
+
+      // On vérifie la réponse dans la console pour afficher les données, puis après on les affichera dans le DOM
+      console.log(data);
+
+      // On enleve la galerie pour qu'apres on ajoute les projets
+      gallery.innerHTML = "";
+
+      //Boucle pour chaque projet reçu de l'API
+      data.forEach((project) => {
+        //Création des elements HTML
+        const figure = document.createElement("figure");
+        const img = document.createElement("img");
+        const figcaption = document.createElement("figcaption");
+
+        // Puis on ajoute les données du projet dans les balises
+        img.src = project.imageUrl;
+        img.alt = project.title;
+        figcaption.textContent = project.title;
+
+        // Pour finir, on construit la structure HTML et on l'insert dans le DOM
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        gallery.appendChild(figure);
+      });
     });
 }
 
-// Fonction pour récupérer les catégories et créer les boutons de filtre
+
 function apiCategorie() {
   fetch("http://localhost:5678/api/categories")
-    .then((reponse) => reponse.json()) // Conversion de la réponse en JSON
+    .then((reponse) => reponse.json())
     .then((data) => {
-      // Création du bouton "Tous" pour afficher tous les projets
+      //Création du bouton Tous
       const btnTous = document.createElement("button");
       btnTous.classList.add("filtre_bouton");
       btnTous.textContent = "Tous";
       btnTous.dataset.id = "0"; // ID = 0 pour "Tous"
       filtre.appendChild(btnTous);
-
       // Création des boutons pour chaque catégorie
       data.forEach((categorie) => {
         const btn = document.createElement("button");
         btn.classList.add("filtre_bouton");
-        btn.textContent = categorie.name; // Nom de la catégorie
-        btn.dataset.id = categorie.id; // ID de la catégorie dans chaque bouton
+        btn.textContent = categorie.name;
+        btn.dataset.id = categorie.id; // On stocke l'ID de la catégorie dans chaque bouton
+
+        // Ajouter le bouton dans le DOM
         filtre.appendChild(btn);
       });
 
@@ -78,6 +104,6 @@ function apiCategorie() {
     });
 }
 
-// Appel des fonctions pour charger les projets et les catégories dès le chargement de la page
+// Appel des fonctions au chargement de la page
 apiWorks();
 apiCategorie();
