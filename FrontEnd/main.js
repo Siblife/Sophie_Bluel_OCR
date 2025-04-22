@@ -2,6 +2,8 @@
 const gallery = document.querySelector(".gallery");
 const filtre = document.getElementById("filtre");
 
+let allWorks = []; //Variable globale pour stocker tous les projets récupérés depuis l'API
+
 // Appel de l'API pour récupérer les projets depuis le serveur et les affiche dynamiquement
 function apiWorks () {fetch("http://localhost:5678/api/works")
 
@@ -10,6 +12,8 @@ function apiWorks () {fetch("http://localhost:5678/api/works")
 
   // Puis on va traiter les données reçues
   .then((data) => {
+
+    allWorks = data; // On stocke les projets dans la variable globale pour pouvoir les filtrer plus tard
 
     // On vérifie la réponse dans la console pour afficher les données, puis après on les affichera dans le DOM
     console.log(data);
@@ -32,8 +36,9 @@ function apiWorks () {fetch("http://localhost:5678/api/works")
     
         // Pour finir, on construit la structure HTML et on l'insert dans le DOM
         figure.appendChild(img)
-        gallery.appendChild(figure)
         figure.appendChild(figcaption)
+        gallery.appendChild(figure)
+        
     });
   });
   
@@ -51,18 +56,7 @@ function apiCategorie() {fetch("http://localhost:5678/api/categories")
   })
 }
 
-function filtreProjets () {
-  const btnFiltre = document.querySelectorAll(".filtre_bouton");
-  const tab = apiWorks();
-  const retour = [];
-  function filtreTab (categorie) {
-    tab.forEach((projet) => {
-      if (projet.categorie.name === categorie)
-        retour.push (projet);
-    })
-    return retour;
-  }
-}
+
 
 apiWorks();
 apiCategorie();
@@ -102,9 +96,23 @@ async function afficherworks(works){
   };
 
 
+  
+
 
 apiWorks();
 
 const travaux=getworks();
 afficherworks(travaux);*/
 
+/*function filtreProjets () {
+  const btnFiltre = document.querySelectorAll(".filtre_bouton");
+  const tab = apiWorks();
+  const retour = [];
+  function filtreTab (categorie) {
+    tab.forEach((projet) => {
+      if (projet.categorie.name === categorie)
+        retour.push (projet);
+    })
+    return retour;
+  }
+}*/
