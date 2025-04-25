@@ -186,3 +186,7 @@ footer nav ul {
 	margin: 2em
 }
 
+.logout, .edition_mode, .modifier {
+	display: none;
+}
+

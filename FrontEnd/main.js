@@ -104,6 +104,20 @@ function apiCategorie() {
     });
 }
 
+if (localStorage.getItem("token")){
+  const login = document.querySelector(".login")
+
+  document.querySelector(".logout").style.display = "flex";
+  document.querySelector(".edition_mode").style.display = "flex";
+  document.querySelector(".modifier").style.display = "flex";
+  login.style.display = "none";
+
+  document.querySelector(".logout").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+  })
+}
+
 // Appel des fonctions au chargement de la page
 apiWorks();
 apiCategorie();
