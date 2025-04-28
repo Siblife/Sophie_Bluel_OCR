@@ -190,3 +190,34 @@ footer nav ul {
 	display: none;
 }
 
+#filtre {
+	display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    gap: 2%;
+}
+
+.filtre_bouton {
+    width: 150px; /* Ajusté pour une meilleure lisibilité */
+    height: 37px;
+    border-radius: 60px;
+    font-family: 'Syne', sans-serif;
+    border: 1px solid #1D6154;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    background-color: transparent;
+    color: #1D6154;
+}
+
+.filtre_bouton.active {
+    background-color: #1D6154;
+    color: white;
+}
+
+.filtre_bouton:hover {
+    background-color: #1D6154;
+    color: white;
+}
