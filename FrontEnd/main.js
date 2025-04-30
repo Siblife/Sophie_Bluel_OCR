@@ -104,17 +104,19 @@ function apiCategorie() {
     });
 }
 
+// Verifie si un token est present dans le localStorage (cela signifie que l'utilisateur est connecté)
 if (localStorage.getItem("token")){
-  const login = document.querySelector(".login")
+  const login = document.querySelector(".login") //On selectionne l'element avec la classe "login"
 
-  document.querySelector(".logout").style.display = "flex";
-  document.querySelector(".edition_mode").style.display = "flex";
-  document.querySelector(".modifier").style.display = "flex";
-  login.style.display = "none";
+  document.querySelector(".logout").style.display = "flex";// Affiche le bouton logout
+  document.querySelector(".edition_mode").style.display = "flex"; // affiche la barre du mode edition
+  document.querySelector(".modifier").style.display = "flex"; // affiche le bouton modifier
+  login.style.display = "none"; // on masque le bouton login car l'utilisateur est connecté
 
+  // On ajoute un écouteur sur le bouton logout, en cliquant on supprime le token et on redirige vers l'accueil
   document.querySelector(".logout").addEventListener("click", () => {
-    localStorage.removeItem("token");
-    window.location.href = "index.html";
+    localStorage.removeItem("token"); // supprime le token du localStorage
+    window.location.href = "index.html"; // redirige vers la page d'accueil
   })
 }
 
