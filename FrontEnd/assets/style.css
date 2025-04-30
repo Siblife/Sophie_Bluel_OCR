@@ -133,6 +133,7 @@ body {
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  position: relative;
 }
 header {
   display: flex;
@@ -325,26 +326,60 @@ footer nav ul {
   gap: 21px;
 }
 
-.modale_position {
+/*.modale_position {
+  z-index: 1;
   position: absolute;
   width: 630px;
   height: 688px;
-  top: 570px;
-  left: 570px;
-  border-radius: 10px;
-  background: #ffffff;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 10px;
+  top: 26%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}*/  
+
+.modale_background {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.fa-xmark {
-  display: flex;
-  justify-content: end;
-  padding: 10px 10px;
-  margin-bottom: 20px;
+.modale_position {
+  background: white;
+  width: 630px;
+  height: 688px;
+  padding: 2rem;
+  border-radius: 8px;
+  position: relative;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.modale_position .close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
 .modale_position p {
-  display: flex;
-  justify-content: center;
   font-family: 'Work Sans';
   font-size: 26px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.line_gray {
+  border: 1px solid gray;
+  width: 420px;
 }
