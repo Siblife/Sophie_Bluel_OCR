@@ -324,3 +324,27 @@ footer nav ul {
   align-items: center;
   gap: 21px;
 }
+
+.modale_position {
+  position: absolute;
+  width: 630px;
+  height: 688px;
+  top: 570px;
+  left: 570px;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.fa-xmark {
+  display: flex;
+  justify-content: end;
+  padding: 10px 10px;
+  margin-bottom: 20px;
+}
+
+.modale_position p {
+  display: flex;
+  justify-content: center;
+  font-family: 'Work Sans';
+  font-size: 26px;
+}
