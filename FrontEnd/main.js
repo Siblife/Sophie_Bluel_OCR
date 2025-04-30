@@ -1,8 +1,12 @@
 // Selection de l'élement HTML qui va contenir les projets
-const gallery = document.querySelector(".gallery");
-const filtre = document.getElementById("filtre");
+const gallery = document.querySelector(".gallery"); // La galerie qui contiendra tous les projets
+const filtre = document.getElementById("filtre"); // La section des boutons filtres
 
 let allWorks = []; //Variable globale pour stocker tous les projets récupérés depuis l'API
+
+// === Fonction d'affichage des projets dans la galerie ===
+// Cette fonction vide la galerie existante, puis crée dynamiquement les éléments HTML
+// (figure, image, titre) pour chaque projet et les insère dans la galerie.
 
 // Fonction pour afficher les projets dans la galerie
 function displayWorks(works) {
@@ -23,6 +27,11 @@ function displayWorks(works) {
     gallery.appendChild(figure);
   });
 }
+
+// === Récupération des projets depuis l'API ===
+// Cette fonction fait un appel GET à l'API pour récupérer tous les projets.
+// Elle les stocke dans la variable globale `allWorks`, les affiche dans la galerie,
+// et les log dans la console pour vérification.
 
 // Appel de l'API pour récupérer les projets depuis le serveur et les afficher dynamiquement
 function apiWorks() {
@@ -60,6 +69,11 @@ function apiWorks() {
     });
 }
 
+
+// === Récupération des catégories et création des boutons de filtre ===
+// Cette fonction interroge l'API pour récupérer les catégories,
+// crée un bouton pour chaque catégorie (y compris un bouton "Tous"),
+// puis ajoute un gestionnaire d'événement pour filtrer les projets selon la catégorie choisie.
 
 function apiCategorie() {
   fetch("http://localhost:5678/api/categories")
@@ -103,6 +117,12 @@ function apiCategorie() {
       });
     });
 }
+
+// === Gestion de l'affichage conditionnel si l'utilisateur est connecté ===
+// Si un token est présent dans le localStorage :
+// - On affiche les éléments d'administration (logout, édition, modifier)
+// - On masque le bouton login
+// - On ajoute un événement sur le bouton logout pour déconnecter l'utilisateur
 
 // Verifie si un token est present dans le localStorage (cela signifie que l'utilisateur est connecté)
 if (localStorage.getItem("token")){
