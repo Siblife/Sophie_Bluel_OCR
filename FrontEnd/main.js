@@ -140,6 +140,10 @@ if (localStorage.getItem("token")){
   })
 }
 
+
+
+
+
 // === Exécution automatique au chargement de la page ===
 // On récupère et affiche tous les projets
 // On génère les filtres à partir des catégories
