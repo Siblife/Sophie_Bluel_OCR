@@ -46,26 +46,7 @@ function apiWorks() {
       // On vérifie la réponse dans la console pour afficher les données, puis après on les affichera dans le DOM
       console.log(data);
 
-      // On enleve la galerie pour qu'apres on ajoute les projets
-      gallery.innerHTML = "";
-
-      //Boucle pour chaque projet reçu de l'API
-      data.forEach((project) => {
-        //Création des elements HTML
-        const figure = document.createElement("figure");
-        const img = document.createElement("img");
-        const figcaption = document.createElement("figcaption");
-
-        // Puis on ajoute les données du projet dans les balises
-        img.src = project.imageUrl;
-        img.alt = project.title;
-        figcaption.textContent = project.title;
-
-        // Pour finir, on construit la structure HTML et on l'insert dans le DOM
-        figure.appendChild(img);
-        figure.appendChild(figcaption);
-        gallery.appendChild(figure);
-      });
+      displayWorks(allWorks)
     });
 }
 
@@ -140,7 +121,25 @@ if (localStorage.getItem("token")){
   })
 }
 
+function modalWorks(works) {
+  
+const projetFlex = document.querySelector(".projets_flex"); 
 
+  works.forEach((project) => {
+    const figure = document.createElement("figure");
+    const img = document.createElement("img");
+    const poubelle = document.createElement("i");
+
+    img.src = project.imageUrl; // URL de l'image du projet
+    img.alt = project.title; // Texte alternatif pour l'image
+    poubelle.classList.add("fa-solid", "fa-trash");// Ajout de la classe de l'icone de poubelle
+
+    // Ajouter les éléments dans la structure de la galerie
+    figure.appendChild(img);
+    figure.appendChild(poubelle);
+    projetFlex.appendChild(figure);
+  });
+}
 
 
 

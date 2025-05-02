@@ -338,3 +338,10 @@ footer nav ul {
 }
 
 
+.edition_header, .edition_projet {
+  display: none;
+}
+
+.ajout_projet {
+  display: none;
+}
