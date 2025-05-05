@@ -365,3 +365,27 @@ h3 {
 .ajout_projet {
   display: none;
 }
+
+.line_gray {
+  border: 1px solid gray;
+  width: 420px;
+  position: absolute;
+  top: 570px;
+}
+
+.button_modale {
+  width: 237px;
+  height: 36px;
+  border-radius: 60px;
+  font-family: "Syne", sans-serif;
+  border: 1px solid #1d6154;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: #1d6154;
+  color: #FFF;
+  position: absolute;
+  top: 645px;
+}

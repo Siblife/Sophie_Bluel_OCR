@@ -122,22 +122,27 @@ if (localStorage.getItem("token")){
 }
 
 function modalWorks(works) {
-  
-const projetFlex = document.querySelector(".projets_flex"); 
+  // Sélection de l'élément HTML qui contiendra les projets dans la modale
+  const projetFlex = document.querySelector(".projets_flex"); 
 
+  // Parcours de la liste des projets pour les afficher dynamiquement
   works.forEach((project) => {
-    const figure = document.createElement("figure");
-    const img = document.createElement("img");
-    const poubelle = document.createElement("i");
+    // Création des éléments HTML nécessaires pour chaque projet
+    const figure = document.createElement("figure"); // Conteneur pour l'image et l'icône
+    const img = document.createElement("img"); // Élément image pour afficher la photo du projet
+    const poubelle = document.createElement("i"); // Icône de poubelle pour la suppression
 
+    // Configuration des attributs de l'image
     img.src = project.imageUrl; // URL de l'image du projet
     img.alt = project.title; // Texte alternatif pour l'image
-    poubelle.classList.add("fa-solid", "fa-trash");// Ajout de la classe de l'icone de poubelle
 
-    // Ajouter les éléments dans la structure de la galerie
-    figure.appendChild(img);
-    figure.appendChild(poubelle);
-    projetFlex.appendChild(figure);
+    // Ajout des classes CSS à l'icône de poubelle pour son style
+    poubelle.classList.add("fa-solid", "fa-trash"); // Classes FontAwesome pour l'icône
+
+    // Ajout des éléments dans la structure HTML de la modale
+    figure.appendChild(img); // Ajout de l'image au conteneur
+    figure.appendChild(poubelle); // Ajout de l'icône de poubelle au conteneur
+    projetFlex.appendChild(figure); // Ajout du conteneur complet à la section des projets
   });
 }
 
