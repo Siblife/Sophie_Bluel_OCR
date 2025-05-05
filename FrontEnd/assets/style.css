@@ -383,7 +383,6 @@ h3 {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
   background-color: #1d6154;
   color: #FFF;
   position: absolute;
