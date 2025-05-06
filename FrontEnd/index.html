@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 
-<body>
+<body class="ombre">
 	<div class="edition_header">
 		<i class="fa-regular fa-pen-to-square"></i>
 		<div class="edition_mode">Mode Edition</div>
@@ -25,7 +25,7 @@
 			<ul>
 				<li>projets</li>
 				<li>contact</li>
-				<li class="login">login</li>
+				<li class="login"><a href="./login.html">login</a></li>
 				<li class="logout">logout</li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
@@ -57,33 +57,42 @@
 			</div>
 			<!-- Modale avec les projets-->
 			<div class="modale_background" id="modale">
-				<i class="fa-solid fa-xmark close"></i>
+				<i class="fa-solid fa-xmark xmark_modale close"></i>
 				<div class="gallery_modal">
 					<h3>Galerie Photo</h3>
 					<div class="projets_flex">
-						
+
 					</div>
 					<div class="line_gray"></div>
 					<button class="button_modale">Ajouter une photo</button>
 				</div>
-				<!-- Modale pour ajouter les projets-->
-				<div class="ajout_projet">
+			</div>
+			<!-- Modale pour ajouter les projets-->
+			<div class="ajout_projet">
+				<div class="flex_icon">
+					<i class="fa-solid fa-arrow-left"></i>
 					<i class="fa-solid fa-xmark close"></i>
-					<div class="arrow_return"></div>
+				</div>
+				<div class="gallery_modal2">
 					<h3>Ajout photo</h3>
 					<div class="ajouter_photo">
-						<div class="icon_photo"></div>
-						<button class=""></button>
-						<p></p>
+						<i class="fa-regular fa-image"></i>
+						<button class="bouton_ajouter">+ Ajouter Photo</button>
+						<p>jpg, png : 4mo max</p>
 					</div>
-					<label for="title">Titre</label>
-					<input type="text" id="title">
-					<label for="categorie">Catégorie</label>
-					<select name="categorie" id="categorie"></select>
+					<div class="flex_label">
+						<label for="title">Titre</label>
+						<input type="text" id="title">
+					</div>
+					<div class="flex_label">
+						<label for="categorie">Catégorie</label>
+						<select name="categorie" id="categorie"></select>
+					</div>
 					<div class="line_gray"></div>
-					<button>Valider</button>
+					<button class="bouton_valider">Valider</button>
 				</div>
 			</div>
+
 			<div id="filtre"></div>
 			<div class="gallery">
 
