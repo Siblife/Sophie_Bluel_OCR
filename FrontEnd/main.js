@@ -1,6 +1,5 @@
 // Selection de l'élement HTML qui va contenir les projets
 const gallery = document.querySelector(".gallery"); // La galerie qui contiendra tous les projets
-const gallerymodale = document.querySelector(".projets_flex");
 const filtre = document.getElementById("filtre"); // La section des boutons filtres
 
 let allWorks = []; //Variable globale pour stocker tous les projets récupérés depuis l'API
@@ -95,23 +94,33 @@ function apiCategorie() {
     });
 }
 
+// === Fonction d'écoute pour l'ouverture de la modale ===
+// Cette fonction ajoute des écouteurs d'événements sur les boutons "modifier" et "édition".
+// Lorsqu'un bouton est cliqué, elle affiche la modale et initialise l'écouteur de fermeture.
 
 function listenerOuvertureModal() {
   document.querySelector(".modifier").addEventListener("click", () => {
-    document.querySelector(".modale_background").style.display = "flex";
-    listenerModalProjet();
+    document.querySelector(".modale_background").style.display = "flex"; // Affiche la modale
+    listenerModalProjet(); // Initialise l'écouteur pour la fermeture
   });
   document.querySelector(".edition_mode").addEventListener("click", () => {
-    document.querySelector(".modale_background").style.display = "flex";
-    
+    document.querySelector(".modale_background").style.display = "flex"; // Affiche la modale
   });
 }
 
+// === Fonction d'écoute pour la fermeture de la modale ===
+// Cette fonction ajoute un écouteur sur l'icône de fermeture (croix),
+// qui masque la modale lorsqu'on clique dessus.
+
 function listenerModalProjet () {
   document.querySelector(".close").addEventListener("click", () => {
-    document.querySelector(".modale_background").style.display = "none";
+    document.querySelector(".modale_background").style.display = "none"; //Masque la modale
   });
 }
+
+// === Fonction d'affichage des projets dans la modale ===
+// Cette fonction prend une liste de projets et les affiche dans la modale sous forme de figures.
+// Chaque figure contient une image du projet et une icône de poubelle pour la suppression future.
 
 function modalWorks(works) {
   // Sélection de l'élément HTML qui contiendra les projets dans la modale
@@ -139,9 +148,10 @@ function modalWorks(works) {
 }
 
 // === Exécution automatique au chargement de la page ===
-// On récupère et affiche tous les projets
-// On génère les filtres à partir des catégories
-// Appel des fonctions au chargement de la page
+// Cette fonction s'exécute automatiquement au chargement de la page.
+// Elle récupère les projets et les catégories depuis l'API,
+// configure l'affichage en fonction de la connexion utilisateur,
+// puis initialise les modales et les filtres dynamiques.
 
 async function codeExec() {
 
@@ -149,7 +159,8 @@ async function codeExec() {
 // Si un token est présent dans le localStorage :
 // - On affiche les éléments d'administration (logout, édition, modifier)
 // - On masque le bouton login
-// - On ajoute un événement sur le bouton logout pour déconnecter l'utilisateur
+// - Active la modale via les boutons
+// - Ajoute un événement "logout" pour supprimer le token et rediriger l'utilisateur
 
 // Verifie si un token est present dans le localStorage (cela signifie que l'utilisateur est connecté)
 
@@ -161,7 +172,8 @@ async function codeExec() {
     document.querySelector(".modifier").style.display = "flex"; // affiche le bouton modifier
     document.querySelector(".edition_header").style.display = "flex";
     login.style.display = "none"; // on masque le bouton login car l'utilisateur est connecté
-    listenerOuvertureModal();
+    listenerOuvertureModal(); // Active les boutons d'ouverture de la modale
+
     // On ajoute un écouteur sur le bouton logout, en cliquant on supprime le token et on redirige vers l'accueil
     document.querySelector(".logout").addEventListener("click", () => {
       localStorage.removeItem("token"); // supprime le token du localStorage
