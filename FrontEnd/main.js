@@ -16,6 +16,7 @@ function displayWorks(works) {
     const figure = document.createElement("figure");
     const img = document.createElement("img");
     const figcaption = document.createElement("figcaption");
+    figure.classList.add("work-" + project.id)
 
     img.src = project.imageUrl; // URL de l'image du projet
     img.alt = project.title; // Texte alternatif pour l'image
@@ -139,7 +140,16 @@ function modalWorks(works) {
 
     // Ajout de la classe CSS de l'icône de poubelle pour son style
     poubelle.classList.add("fa-solid", "fa-trash"); // Classes FontAwesome pour l'icône
-
+    poubelle.addEventListener("click", () => {
+      figure.remove(); // Enleve les projets de la modale
+      document.querySelector(".work-" + project.id).remove(); //Supprime de la gallery
+      fetch ("http://localhost:5678/api/works/"+project.id, { // Supprime de l'api
+        method : "DELETE",
+        headers: {
+          authorization : "Bearer " + localStorage.getItem("token"),
+        }
+      })
+    })
     // Ajout des éléments dans la structure HTML de la modale
     figure.appendChild(img); // Ajout de l'image au conteneur
     figure.appendChild(poubelle); // Ajout de l'icône de poubelle au conteneur
