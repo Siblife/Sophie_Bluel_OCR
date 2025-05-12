@@ -151,6 +151,7 @@ function modalWorks(works) {
 
     // Ajout de la classe CSS de l'icône de poubelle pour son style
     poubelle.classList.add("fa-solid", "fa-trash"); // Classes FontAwesome pour l'icône
+    
     poubelle.addEventListener("click", () => {
       figure.remove(); // Enleve les projets de la modale
       document.querySelector(".work-" + project.id).remove(); //Supprime de la gallery

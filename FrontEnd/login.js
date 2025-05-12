@@ -15,27 +15,36 @@ const password = passwordInput.value;
 errorLogin.style.visibility = "hidden"; //On masque le message d'erreur avant d'envoyer la requete
 
 
-fetch("http://localhost:5678/api/users/login", { //Envoi des identifiants a l'API pour vérification via une requete POST
+// === Fonction de gestion de la soumission du formulaire de connexion ===
+// Cette fonction est déclenchée lorsque l'utilisateur soumet le formulaire de connexion.
+// Elle récupère les valeurs saisies dans les champs email et mot de passe,
+// envoie une requête POST à l'API pour vérifier les identifiants,
+// et gère la réponse pour connecter l'utilisateur ou afficher un message d'erreur.
+
+fetch("http://localhost:5678/api/users/login", { 
+    // Envoi des identifiants à l'API pour vérification via une requête POST
     method: "POST", // Utilisation de la méthode POST pour envoyer des données au serveur
-    headers: { // Les données envoyées en JSON vers les en-tetes
-      "Content-Type": "application/json"
+    headers: { 
+      "Content-Type": "application/json" // Les données envoyées sont au format JSON
     },
-    body: JSON.stringify({ // Onconvertit les identifiants en chaine JSON pour les envoyer
-      email: email,
-      password: password
+    body: JSON.stringify({ 
+      email: email, // Conversion de l'email en chaîne JSON
+      password: password // Conversion du mot de passe en chaîne JSON
     })
   })
-  .then(data => data.json()) // On convertit la réponse de l'API en objet javascript
-  .then(data => { // On traite les données renvoyées par l'API
-    // Si la réponse contient bien le Token, l'utilisateur est connecté
+  .then(data => data.json()) // Conversion de la réponse de l'API en objet JavaScript
+  .then(data => { 
+    // Traitement des données renvoyées par l'API
     if (data.token) {
-        localStorage.setItem("token", data.token); //Si le token est présent, la connexion va marcher
-        window.location.href = "index.html"; // Et la connexion va rediriger vers la page d'accueil
+        // Si la réponse contient un token, l'utilisateur est connecté
+        localStorage.setItem("token", data.token); // Stocke le token dans le localStorage
+        window.location.href = "index.html"; // Redirige l'utilisateur vers la page d'accueil
     } else {
-        errorLogin.style.visibility = "visible"; // Affichage du message d'erreur si la connexion échoue
+        errorLogin.style.visibility = "visible"; // Affiche un message d'erreur si la connexion échoue
     }
-    // On vérifie la réponse de l'API dans la console
-    console.log(data);
+    console.log(data); // Affiche la réponse de l'API dans la console pour vérification
   })
-  
-})
+  .catch(error => {
+    // Gestion des erreurs en cas de problème avec la requête
+    console.error("Erreur lors de la connexion :", error);
+  });
