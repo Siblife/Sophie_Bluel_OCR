@@ -264,9 +264,7 @@ footer nav ul {
   margin: 2em;
 }
 
-.ombre
-
-.logout,
+.ombre .logout,
 .modifier {
   display: none;
 }
@@ -350,24 +348,24 @@ footer nav ul {
   grid-column-gap: 20px;
   grid-row-gap: 20px;
   figure {
-    position:relative;
+    position: relative;
     height: auto;
+    width: 77px;
     img {
       width: 100%; /* Adapte l'image à la largeur du conteneur */
       height: 100%; /* Adapte l'image à la hauteur du conteneur */
       object-fit: cover;
     }
-    .fa-trash{
+    .fa-trash {
+      color: white;
       position: absolute;
-      top:5%;
-      left:5%;
-      background-color: white;
-      padding:5px;
-      
+      top: 5%;
+      left: 65%;
+      background-color: black;
+      padding: 5px;
     }
   }
 }
-
 
 .xmark_modale {
   display: flex;
@@ -388,8 +386,6 @@ h3 {
   font-size: 26px;
   margin-bottom: 40px;
 }
-
-
 
 .line_gray {
   border: 1px solid gray;
@@ -426,7 +422,6 @@ h3 {
   padding: 20px;
   display: none;
   flex-direction: column;
-  
 }
 
 .flex_icon {
@@ -445,7 +440,7 @@ h3 {
 .ajouter_photo {
   width: 80%;
   height: 169px;
-  background: #E8F1F6;
+  background: #e8f1f6;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -455,7 +450,7 @@ h3 {
 
 .fa-image {
   font-size: 76px;
-  color: #B9C5CC;
+  color: #b9c5cc;
 }
 
 .bouton_ajouter {
@@ -463,7 +458,7 @@ h3 {
   width: 173px;
   height: 36px;
   border-radius: 50px;
-  font-family: 'Work Sans';
+  font-family: "Work Sans";
   font-size: 14px;
   color: #306685;
 }
@@ -475,23 +470,23 @@ h3 {
 }
 
 label {
-  font-family: 'Work Sans';
+  font-family: "Work Sans";
   font-size: 14px;
-  color: #3D3D3D;
+  color: #3d3d3d;
 }
 
 input {
   border: none;
   height: 51px;
   box-shadow: 0px 4px 14px 0px #00000017;
-  color: #FFF;
+  color: #fff;
 }
 
 select {
   border: none;
   height: 51px;
   box-shadow: 0px 4px 14px 0px #00000017;
-  background: #FFF;
+  background: #fff;
 }
 
 .bouton_valider {
@@ -506,6 +501,6 @@ select {
   color: #fff;
   position: absolute;
   top: 645px;
-  background: #A7A7A7;
+  background: #a7a7a7;
   border: none;
 }

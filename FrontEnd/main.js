@@ -119,6 +119,17 @@ function listenerModalProjet () {
   });
 }
 
+// === Fonction d'écoute pour l'ouverture de la modale d'ajout de projet ===
+// Cette fonction ajoute un écouteur sur le bouton "button_modale",
+// qui masque la modale actuelle et affiche la modale d'ajout de projet.
+
+function listenerGalerieAjouterPhoto () {
+  document.querySelector(".button_modale").addEventListener("click", () => {
+    document.querySelector(".modale_background").style.display = "none";
+    document.querySelector(".ajout_projet").style.display = "flex";
+  })
+}
+
 // === Fonction d'affichage des projets dans la modale ===
 // Cette fonction prend une liste de projets et les affiche dans la modale sous forme de figures.
 // Chaque figure contient une image du projet et une icône de poubelle pour la suppression future.
@@ -195,6 +206,7 @@ async function codeExec() {
   displayWorks(allWorks);// Attend que les projets soient récupérés et stockés dans allWorks
   modalWorks(allWorks); // Appelle modalWorks avec les données récupérées
   apiCategorie(); // Appelle apiCategorie indépendamment
+  listenerGalerieAjouterPhoto();
 }
 
 codeExec();
