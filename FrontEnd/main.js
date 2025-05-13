@@ -41,6 +41,8 @@ function apiWorks() {
     .then((data) => {
       allWorks = data; // Stocke les projets dans la variable globale
       console.log("Projets récupérés :", allWorks); // Vérifie les données dans la console
+      displayWorks(allWorks);
+      modalWorks(allWorks);
     })
     .catch((error) => {
       console.error("Erreur lors de la récupération des projets :", error);
@@ -161,19 +163,20 @@ function ajouterProjet(image, title, category) {
     .then((response) => {
       if (response.ok) {
         return response.json(); // Convertit la réponse en JSON si tout va bien
-        displayWorks();
       } else {
         throw new Error("Erreur lors de l'ajout du projet"); // Gère les erreurs
       }
     })
     .then((data) => {
-      console.log("Projet ajouté :", data); // Affiche les données dans la console
+      console.log("Projet ajouté :", data);
       alert("Projet ajouté avec succès !");
       document.querySelector(".ajout_projet").style.display = "none"; // Ferme la modale
-      apiWorks(); // Recharge les projets pour afficher le nouveau
+
+      // Étape suivante : Recharger la galerie
+      apiWorks(); // Recharge les projets pour mettre à jour la galerie
     })
     .catch((error) => {
-      console.error("Erreur :", error); // Affiche l'erreur dans la console
+      console.error("Erreur :", error);
       alert("Une erreur est survenue lors de l'ajout du projet.");
     });
 }
@@ -211,8 +214,21 @@ function listenerGalerieAjouterPhoto () {
   document.querySelector(".button_modale").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "none";
     document.querySelector(".ajout_projet").style.display = "flex";
+    retourArrow();
   })
 }
+
+// === Fonction d'écoute sur la fleche de la modale 2 pour retourner sur la 1ere modale ===
+//
+//
+
+function retourArrow () {
+  document.querySelector(".fa-arrow-left").addEventListener ("click", () => {
+    document.querySelector(".ajout_projet").style.display = "none";
+    document.querySelector(".modale_background").style.display = "flex";
+  })
+}
+
 
 // === Fonction d'affichage des projets dans la modale ===
 // Cette fonction prend une liste de projets et les affiche dans la modale sous forme de figures.
@@ -221,7 +237,7 @@ function listenerGalerieAjouterPhoto () {
 function modalWorks(works) {
   // Sélection de l'élément HTML qui contiendra les projets dans la modale
   const projetFlex = document.querySelector(".projets_flex");
-
+  projetFlex.innerHTML = "";
   // Parcours de la liste des projets pour les afficher dynamiquement
   works.forEach((project) => {
     // Création des éléments HTML nécessaires pour chaque projet
