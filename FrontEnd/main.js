@@ -120,6 +120,63 @@ function ajoutCategorieSelect () {
 //
 //
 
+function listenerValidationFormulaire() {
+  document.querySelector(".bouton_valider").addEventListener("click", (event) => {
+    event.preventDefault(); // Empêche le rechargement de la page
+
+    // Récupérer les valeurs des champs du formulaire
+    const image = document.getElementById("file").files[0];
+    const title = document.getElementById("title").value;
+    const category = document.getElementById("categorie").value;
+
+    // Vérifier que tous les champs sont remplis
+    if (!image || !title || !category) {
+      alert("Veuillez remplir tous les champs !"); // Afficher un message d'erreur
+      return; // Arrêter l'exécution si un champ est vide
+    }
+
+    // Si tout est bon, afficher un message de succès (ou passer à l'étape suivante)
+    console.log("Formulaire valide :", { image, title, category });
+    ajouterProjet(image,title, category);
+  });
+}
+
+// === Fonction ajouter les works au backend ===
+//
+//
+
+function ajouterProjet(image, title, category) {
+  const formData = new FormData(); // Crée un objet FormData
+  formData.append("image", image); // Ajoute l'image
+  formData.append("title", title); // Ajoute le titre
+  formData.append("category", category); // Ajoute la catégorie
+
+  fetch("http://localhost:5678/api/works", {
+    method: "POST", // Méthode HTTP POST pour envoyer les données
+    headers: {
+      authorization: "Bearer " + localStorage.getItem("token"), // Ajoute le token pour l'authentification
+    },
+    body: formData, // Les données du formulaire
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json(); // Convertit la réponse en JSON si tout va bien
+        displayWorks();
+      } else {
+        throw new Error("Erreur lors de l'ajout du projet"); // Gère les erreurs
+      }
+    })
+    .then((data) => {
+      console.log("Projet ajouté :", data); // Affiche les données dans la console
+      alert("Projet ajouté avec succès !");
+      document.querySelector(".ajout_projet").style.display = "none"; // Ferme la modale
+      apiWorks(); // Recharge les projets pour afficher le nouveau
+    })
+    .catch((error) => {
+      console.error("Erreur :", error); // Affiche l'erreur dans la console
+      alert("Une erreur est survenue lors de l'ajout du projet.");
+    });
+}
 
 
 // === Fonction d'écoute pour l'ouverture de la modale ===
@@ -236,6 +293,7 @@ async function codeExec() {
   apiCategorie(); // Appelle apiCategorie indépendamment
   listenerGalerieAjouterPhoto();
   ajoutCategorieSelect();
+  listenerValidationFormulaire();
 }
 
 codeExec();
