@@ -95,6 +95,33 @@ function apiCategorie() {
     });
 }
 
+// === Recupération des categorie via l'API pour les ajouter dans la balise select ===
+//
+//
+
+function ajoutCategorieSelect () {
+    fetch("http://localhost:5678/api/categories") // Récupérer les catégories
+    .then((response) => response.json()) // Convertir la réponse en JSON
+    .then((categories) => {
+      const select = document.getElementById("categorie"); // Sélectionner la balise <select>
+      categories.forEach((categorie) => {
+        const option = document.createElement("option"); // Créer une balise <option>
+        option.value = categorie.id; // Définir la valeur de l'option avec l'ID de la catégorie
+        option.textContent = categorie.name; // Définir le texte affiché avec le nom de la catégorie
+        select.appendChild(option); //Ajouter l'option à la balise <select>
+      });
+    })
+    .catch((error) => {
+      console.error("Erreur lors du chargement des catégories :", error); // Gestion des erreurs
+    });
+}
+
+// === Fonction d'écoute pour vérifier que les champs ne sont pas vide avant d'envoyer au back end ===
+//
+//
+
+
+
 // === Fonction d'écoute pour l'ouverture de la modale ===
 // Cette fonction ajoute des écouteurs d'événements sur les boutons "modifier" et "édition".
 // Lorsqu'un bouton est cliqué, elle affiche la modale et initialise l'écouteur de fermeture.
@@ -151,7 +178,7 @@ function modalWorks(works) {
 
     // Ajout de la classe CSS de l'icône de poubelle pour son style
     poubelle.classList.add("fa-solid", "fa-trash"); // Classes FontAwesome pour l'icône
-    
+
     poubelle.addEventListener("click", () => {
       figure.remove(); // Enleve les projets de la modale
       document.querySelector(".work-" + project.id).remove(); //Supprime de la gallery
@@ -208,6 +235,7 @@ async function codeExec() {
   modalWorks(allWorks); // Appelle modalWorks avec les données récupérées
   apiCategorie(); // Appelle apiCategorie indépendamment
   listenerGalerieAjouterPhoto();
+  ajoutCategorieSelect();
 }
 
 codeExec();

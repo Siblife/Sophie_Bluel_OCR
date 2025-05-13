@@ -48,3 +48,4 @@ fetch("http://localhost:5678/api/users/login", {
     // Gestion des erreurs en cas de problème avec la requête
     console.error("Erreur lors de la connexion :", error);
   });
+});
