@@ -16,7 +16,7 @@ function displayWorks(works) {
     const figure = document.createElement("figure");
     const img = document.createElement("img");
     const figcaption = document.createElement("figcaption");
-    figure.classList.add("work-" + project.id)
+    figure.classList.add("work-" + project.id);
 
     img.src = project.imageUrl; // URL de l'image du projet
     img.alt = project.title; // Texte alternatif pour l'image
@@ -101,8 +101,8 @@ function apiCategorie() {
 //
 //
 
-function ajoutCategorieSelect () {
-    fetch("http://localhost:5678/api/categories") // Récupérer les catégories
+function ajoutCategorieSelect() {
+  fetch("http://localhost:5678/api/categories") // Récupérer les catégories
     .then((response) => response.json()) // Convertir la réponse en JSON
     .then((categories) => {
       const select = document.getElementById("categorie"); // Sélectionner la balise <select>
@@ -123,25 +123,52 @@ function ajoutCategorieSelect () {
 //
 
 function listenerValidationFormulaire() {
-  document.querySelector(".bouton_valider").addEventListener("click", (event) => {
+  const validateButton = document.querySelector(".bouton_valider");
+  const fileInput = document.getElementById("file");
+  const titleInput = document.getElementById("title");
+  const categorySelect = document.getElementById("categorie");
+
+  // Fonction pour vérifier si tous les champs sont remplis
+  function checkFormCompletion() {
+    const isFileSelected = fileInput.files.length > 0;
+    const isTitleFilled = titleInput.value.trim() !== "";
+    const isCategorySelected = categorySelect.value !== "";
+
+    if (isFileSelected && isTitleFilled && isCategorySelected) {
+      validateButton.style.backgroundColor = "#1D6154"; // Couleur de fond active
+      validateButton.style.color = "#FFFFFF"; // Couleur du texte active
+      validateButton.style.cursor = "pointer";
+    } else {
+      validateButton.style.backgroundColor = "#cbd6dc"; // Couleur de fond par défaut
+      validateButton.style.color = "#306685"; // Couleur du texte par défaut
+      validateButton.style.cursor = "not-allowed";
+    }
+  }
+
+  // Ajout des écouteurs d'événements sur les champs
+  fileInput.addEventListener("change", checkFormCompletion);
+  titleInput.addEventListener("input", checkFormCompletion);
+  categorySelect.addEventListener("change", checkFormCompletion);
+
+  // Écouteur pour le clic sur le bouton "Valider"
+  validateButton.addEventListener("click", (event) => {
     event.preventDefault(); // Empêche le rechargement de la page
 
-    // Récupérer les valeurs des champs du formulaire
-    const image = document.getElementById("file").files[0];
-    const title = document.getElementById("title").value;
-    const category = document.getElementById("categorie").value;
+    const image = fileInput.files[0];
+    const title = titleInput.value;
+    const category = categorySelect.value;
 
-    // Vérifier que tous les champs sont remplis
     if (!image || !title || !category) {
-      alert("Veuillez remplir tous les champs !"); // Afficher un message d'erreur
-      return; // Arrêter l'exécution si un champ est vide
+      alert("Veuillez remplir tous les champs !");
+      return;
     }
 
-    // Si tout est bon, afficher un message de succès (ou passer à l'étape suivante)
     console.log("Formulaire valide :", { image, title, category });
-    ajouterProjet(image,title, category);
+    ajouterProjet(image, title, category);
   });
 }
+
+
 
 // === Fonction ajouter les works au backend ===
 //
@@ -181,7 +208,6 @@ function ajouterProjet(image, title, category) {
     });
 }
 
-
 // === Fonction d'écoute pour l'ouverture de la modale ===
 // Cette fonction ajoute des écouteurs d'événements sur les boutons "modifier" et "édition".
 // Lorsqu'un bouton est cliqué, elle affiche la modale et initialise l'écouteur de fermeture.
@@ -200,7 +226,7 @@ function listenerOuvertureModal() {
 // Cette fonction ajoute un écouteur sur l'icône de fermeture (croix),
 // qui masque la modale lorsqu'on clique dessus.
 
-function listenerModalProjet () {
+function listenerModalProjet() {
   document.querySelector(".close").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "none"; //Masque la modale
   });
@@ -210,25 +236,24 @@ function listenerModalProjet () {
 // Cette fonction ajoute un écouteur sur le bouton "button_modale",
 // qui masque la modale actuelle et affiche la modale d'ajout de projet.
 
-function listenerGalerieAjouterPhoto () {
+function listenerGalerieAjouterPhoto() {
   document.querySelector(".button_modale").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "none";
     document.querySelector(".ajout_projet").style.display = "flex";
     retourArrow();
-  })
+  });
 }
 
 // === Fonction d'écoute sur la fleche de la modale 2 pour retourner sur la 1ere modale ===
 //
 //
 
-function retourArrow () {
-  document.querySelector(".fa-arrow-left").addEventListener ("click", () => {
+function retourArrow() {
+  document.querySelector(".fa-arrow-left").addEventListener("click", () => {
     document.querySelector(".ajout_projet").style.display = "none";
     document.querySelector(".modale_background").style.display = "flex";
-  })
+  });
 }
-
 
 // === Fonction d'affichage des projets dans la modale ===
 // Cette fonction prend une liste de projets et les affiche dans la modale sous forme de figures.
@@ -255,19 +280,51 @@ function modalWorks(works) {
     poubelle.addEventListener("click", () => {
       figure.remove(); // Enleve les projets de la modale
       document.querySelector(".work-" + project.id).remove(); //Supprime de la gallery
-      fetch ("http://localhost:5678/api/works/"+project.id, { // Supprime de l'api
-        method : "DELETE",
+      fetch("http://localhost:5678/api/works/" + project.id, {
+        // Supprime de l'api
+        method: "DELETE",
         headers: {
-          authorization : "Bearer " + localStorage.getItem("token"),
-        }
-      })
-    })
+          authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+    });
     // Ajout des éléments dans la structure HTML de la modale
     figure.appendChild(img); // Ajout de l'image au conteneur
     figure.appendChild(poubelle); // Ajout de l'icône de poubelle au conteneur
     projetFlex.appendChild(figure); // Ajout du conteneur complet à la section des projets
   });
 }
+
+// === Ajout d'un ecouteur sur le bouton ajouter une photo pour avoir la prevu de l'image ===
+//
+//
+
+// Ajout d'un écouteur d'événement sur l'input de type file pour afficher une prévisualisation de l'image sélectionnée
+const fileInput = document.getElementById("file");
+const ajouterPhotoDiv = document.querySelector(".ajouter_photo");
+
+fileInput.addEventListener("change", (event) => {
+  const file = event.target.files[0]; // Récupère le fichier sélectionné
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      // Crée une balise img pour afficher l'image
+      const img = document.createElement("img");
+      img.src = e.target.result; // URL de l'image
+      img.alt = "Prévisualisation de l'image";
+      img.style.maxWidth = "100%";
+      img.style.maxHeight = "100%";
+
+      // Vide le contenu actuel de la div et ajoute l'image
+      ajouterPhotoDiv.innerHTML = "";
+      ajouterPhotoDiv.appendChild(img);
+    };
+
+    reader.readAsDataURL(file); // Lit le fichier comme une URL
+  }
+});
 
 // === Exécution automatique au chargement de la page ===
 // Cette fonction s'exécute automatiquement au chargement de la page.
@@ -276,19 +333,18 @@ function modalWorks(works) {
 // puis initialise les modales et les filtres dynamiques.
 
 async function codeExec() {
+  // === Gestion de l'affichage conditionnel si l'utilisateur est connecté ===
+  // Si un token est présent dans le localStorage :
+  // - On affiche les éléments d'administration (logout, édition, modifier)
+  // - On masque le bouton login
+  // - Active la modale via les boutons
+  // - Ajoute un événement "logout" pour supprimer le token et rediriger l'utilisateur
 
-// === Gestion de l'affichage conditionnel si l'utilisateur est connecté ===
-// Si un token est présent dans le localStorage :
-// - On affiche les éléments d'administration (logout, édition, modifier)
-// - On masque le bouton login
-// - Active la modale via les boutons
-// - Ajoute un événement "logout" pour supprimer le token et rediriger l'utilisateur
-
-// Verifie si un token est present dans le localStorage (cela signifie que l'utilisateur est connecté)
+  // Verifie si un token est present dans le localStorage (cela signifie que l'utilisateur est connecté)
 
   if (localStorage.getItem("token")) {
     const login = document.querySelector(".login"); //On selectionne l'element avec la classe "login"
-  
+
     document.querySelector(".logout").style.display = "flex"; // Affiche le bouton logout
     document.querySelector(".edition_projet").style.display = "flex"; // affiche la barre du mode edition
     document.querySelector(".modifier").style.display = "flex"; // affiche le bouton modifier
@@ -303,8 +359,8 @@ async function codeExec() {
     });
   }
 
-  await apiWorks(); 
-  displayWorks(allWorks);// Attend que les projets soient récupérés et stockés dans allWorks
+  await apiWorks();
+  displayWorks(allWorks); // Attend que les projets soient récupérés et stockés dans allWorks
   modalWorks(allWorks); // Appelle modalWorks avec les données récupérées
   apiCategorie(); // Appelle apiCategorie indépendamment
   listenerGalerieAjouterPhoto();
