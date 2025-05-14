@@ -41,11 +41,14 @@ function apiWorks() {
     .then((data) => {
       allWorks = data; // Stocke les projets dans la variable globale
       console.log("Projets récupérés :", allWorks); // Vérifie les données dans la console
-      displayWorks(allWorks);
-      modalWorks(allWorks);
+      displayWorks(allWorks); // Affiche les projets dans la galerie
+      modalWorks(allWorks); // Affiche les projets dans la modale
     })
     .catch((error) => {
       console.error("Erreur lors de la récupération des projets :", error);
+      alert(
+        "Impossible de récupérer les projets. Vérifiez votre connexion ou contactez l'administrateur."
+      ); // Suggestion pour l'utilisateur
     });
 }
 
@@ -97,109 +100,101 @@ function apiCategorie() {
     });
 }
 
-// === Recupération des categorie via l'API pour les ajouter dans la balise select ===
-//
-//
-
+// === Ajout des catégories dans une balise <select> ===
+// Cette fonction récupère les catégories depuis l'API et les ajoute dans une balise <select>.
+// Cela permet à l'utilisateur de sélectionner une catégorie lors de l'ajout d'un projet.
 function ajoutCategorieSelect() {
-  fetch("http://localhost:5678/api/categories") // Récupérer les catégories
-    .then((response) => response.json()) // Convertir la réponse en JSON
+  fetch("http://localhost:5678/api/categories")
+    .then((response) => response.json())
     .then((categories) => {
-      const select = document.getElementById("categorie"); // Sélectionner la balise <select>
+      const select = document.getElementById("categorie");
       categories.forEach((categorie) => {
-        const option = document.createElement("option"); // Créer une balise <option>
-        option.value = categorie.id; // Définir la valeur de l'option avec l'ID de la catégorie
-        option.textContent = categorie.name; // Définir le texte affiché avec le nom de la catégorie
-        select.appendChild(option); //Ajouter l'option à la balise <select>
+        const option = document.createElement("option");
+        option.value = categorie.id; // Définit la valeur de l'option avec l'ID de la catégorie
+        option.textContent = categorie.name; // Définit le texte affiché avec le nom de la catégorie
+        select.appendChild(option); // Ajoute l'option à la balise <select>
       });
     })
     .catch((error) => {
-      console.error("Erreur lors du chargement des catégories :", error); // Gestion des erreurs
+      console.error("Erreur lors du chargement des catégories :", error);
     });
 }
 
-// === Fonction d'écoute pour vérifier que les champs ne sont pas vide avant d'envoyer au back end ===
-//
-//
-
+// === Validation du formulaire avant envoi ===
+// Cette fonction vérifie que tous les champs du formulaire sont remplis avant de l'envoyer au backend.
+// Elle change également l'apparence du bouton "Valider" pour indiquer si le formulaire est prêt à être soumis.
 function listenerValidationFormulaire() {
   const validateButton = document.querySelector(".bouton_valider");
   const fileInput = document.getElementById("file");
   const titleInput = document.getElementById("title");
   const categorySelect = document.getElementById("categorie");
 
-  // Fonction pour vérifier si tous les champs sont remplis
   function checkFormCompletion() {
     const isFileSelected = fileInput.files.length > 0;
     const isTitleFilled = titleInput.value.trim() !== "";
     const isCategorySelected = categorySelect.value !== "";
 
     if (isFileSelected && isTitleFilled && isCategorySelected) {
-      validateButton.style.backgroundColor = "#1D6154"; // Couleur de fond active
-      validateButton.style.color = "#FFFFFF"; // Couleur du texte active
+      validateButton.style.backgroundColor = "#1D6154";
+      validateButton.style.color = "#FFFFFF";
       validateButton.style.cursor = "pointer";
     } else {
-      validateButton.style.backgroundColor = "#cbd6dc"; // Couleur de fond par défaut
-      validateButton.style.color = "#306685"; // Couleur du texte par défaut
+      validateButton.style.backgroundColor = "#cbd6dc";
+      validateButton.style.color = "#306685";
       validateButton.style.cursor = "not-allowed";
     }
   }
 
-  // Ajout des écouteurs d'événements sur les champs
+  // Ajout des écouteurs d'événements sur les champs pour vérifier la complétion du formulaire
   fileInput.addEventListener("change", checkFormCompletion);
   titleInput.addEventListener("input", checkFormCompletion);
   categorySelect.addEventListener("change", checkFormCompletion);
 
   // Écouteur pour le clic sur le bouton "Valider"
   validateButton.addEventListener("click", (event) => {
-    event.preventDefault(); // Empêche le rechargement de la page
+    event.preventDefault();
 
+    // Vérification finale des champs avant soumission
     const image = fileInput.files[0];
     const title = titleInput.value;
     const category = categorySelect.value;
 
     if (!image || !title || !category) {
-      alert("Veuillez remplir tous les champs !");
+      alert("Veuillez remplir tous les champs !"); // Alerte si des champs sont vides
       return;
     }
 
     console.log("Formulaire valide :", { image, title, category });
-    ajouterProjet(image, title, category);
+    ajouterProjet(image, title, category); // Appel de la fonction pour ajouter le projet
   });
 }
 
-
-
-// === Fonction ajouter les works au backend ===
-//
-//
-
+// === Ajout d'un projet au backend ===
+// Cette fonction envoie un nouveau projet au backend via une requête POST.
 function ajouterProjet(image, title, category) {
-  const formData = new FormData(); // Crée un objet FormData
-  formData.append("image", image); // Ajoute l'image
-  formData.append("title", title); // Ajoute le titre
-  formData.append("category", category); // Ajoute la catégorie
+  const formData = new FormData();
+  formData.append("image", image);
+  formData.append("title", title);
+  formData.append("category", category);
 
   fetch("http://localhost:5678/api/works", {
-    method: "POST", // Méthode HTTP POST pour envoyer les données
+    method: "POST",
     headers: {
-      authorization: "Bearer " + localStorage.getItem("token"), // Ajoute le token pour l'authentification
+      authorization: "Bearer " + localStorage.getItem("token"),
     },
-    body: formData, // Les données du formulaire
+    body: formData,
   })
     .then((response) => {
       if (response.ok) {
-        return response.json(); // Convertit la réponse en JSON si tout va bien
+        return response.json();
       } else {
-        throw new Error("Erreur lors de l'ajout du projet"); // Gère les erreurs
+        throw new Error("Erreur lors de l'ajout du projet");
       }
     })
     .then((data) => {
       console.log("Projet ajouté :", data);
       alert("Projet ajouté avec succès !");
-      document.querySelector(".ajout_projet").style.display = "none"; // Ferme la modale
-
-      // Étape suivante : Recharger la galerie
+      document.querySelector(".ajout_projet").style.display = "none";
       apiWorks(); // Recharge les projets pour mettre à jour la galerie
     })
     .catch((error) => {
@@ -245,8 +240,6 @@ function listenerGalerieAjouterPhoto() {
 }
 
 // === Fonction d'écoute sur la fleche de la modale 2 pour retourner sur la 1ere modale ===
-//
-//
 
 function retourArrow() {
   document.querySelector(".fa-arrow-left").addEventListener("click", () => {
