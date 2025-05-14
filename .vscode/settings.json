@@ -1,7 +1,7 @@
 {
   "liveServer.settings.ignoreFiles": ["Backend/**"],
   "github.copilot.enable": {
-    "*": false,
+    "*": true,
     "plaintext": false,
     "markdown": false,
     "scminput": false

@@ -461,6 +461,11 @@ h3 {
   font-family: "Work Sans";
   font-size: 14px;
   color: #306685;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #cbd6dc;
 }
 
 .flex_label {
