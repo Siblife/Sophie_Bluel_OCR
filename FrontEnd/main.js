@@ -195,6 +195,12 @@ function ajouterProjet(image, title, category) {
       console.log("Projet ajouté :", data);
       alert("Projet ajouté avec succès !");
       document.querySelector(".ajout_projet").style.display = "none";
+      const formulairePhoto = document.querySelector("form");
+      document.querySelector(".fa-image").style.display = "flex";
+      document.querySelector(".bouton_ajouter").style.display = "flex";
+      document.querySelector(".ajouter_photo p").style.display = "flex";
+      document.querySelector(".ajouter_photo img").remove();
+      formulairePhoto.reset();
       apiWorks(); // Recharge les projets pour mettre à jour la galerie
     })
     .catch((error) => {
@@ -311,7 +317,9 @@ fileInput.addEventListener("change", (event) => {
       img.style.maxHeight = "100%";
 
       // Vide le contenu actuel de la div et ajoute l'image
-      ajouterPhotoDiv.innerHTML = "";
+      document.querySelector(".fa-image").style.display = "none";
+      document.querySelector(".bouton_ajouter").style.display = "none";
+      document.querySelector(".ajouter_photo p").style.display = "none";
       ajouterPhotoDiv.appendChild(img);
     };
 
@@ -342,6 +350,7 @@ async function codeExec() {
     document.querySelector(".edition_projet").style.display = "flex"; // affiche la barre du mode edition
     document.querySelector(".modifier").style.display = "flex"; // affiche le bouton modifier
     document.querySelector(".edition_header").style.display = "flex";
+    filtre.style.display = "none";
     login.style.display = "none"; // on masque le bouton login car l'utilisateur est connecté
     listenerOuvertureModal(); // Active les boutons d'ouverture de la modale
 
