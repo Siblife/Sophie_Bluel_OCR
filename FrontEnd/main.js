@@ -16,7 +16,7 @@ function displayWorks(works) {
     const figure = document.createElement("figure");
     const img = document.createElement("img");
     const figcaption = document.createElement("figcaption");
-    figure.classList.add("work-" + project.id);
+    figure.classList.add("work-" + project.id, "filtre_img");
 
     img.src = project.imageUrl; // URL de l'image du projet
     img.alt = project.title; // Texte alternatif pour l'image
@@ -216,10 +216,38 @@ function ajouterProjet(image, title, category) {
 function listenerOuvertureModal() {
   document.querySelector(".modifier").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "flex"; // Affiche la modale
+    document.querySelector(".body_ombre").classList.add("fond_ombre");
+    const tabWorks = document.querySelectorAll(".filtre_img");
+    for (let i = 0; i < tabWorks.length; i++) {
+      tabWorks[i].classList.add("brightness_img");
+    }
     listenerModalProjet(); // Initialise l'écouteur pour la fermeture
   });
   document.querySelector(".edition_mode").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "flex"; // Affiche la modale
+    document.querySelector(".body_ombre").classList.add("fond_ombre");
+    listenerModalProjet();
+    const tabWorks = document.querySelectorAll(".filtre_img");
+    for (let i = 0; i < tabWorks.length; i++) {
+      tabWorks[i].classList.add("brightness_img");
+    }
+  });
+
+  
+  const modale1 = document.querySelector(".modale_background");
+  const modale2 = document.querySelector(".ajout_projet");
+
+  document.addEventListener("click", (event) => {
+    if (!modale1.contains(event.target) && !modale2.contains(event.target) && !document.querySelector(".modifier").contains(event.target)
+    && !document.querySelector(".edition_mode").contains(event.target)) {
+      modale1.style.display = "none"; // Masque la première modale
+      modale2.style.display = "none"; // Masque la deuxième modale
+      document.querySelector(".body_ombre").classList.remove("fond_ombre");
+      const tabWorks = document.querySelectorAll(".filtre_img");
+      for (let i = 0; i < tabWorks.length; i++) {
+        tabWorks[i].classList.remove("brightness_img");
+      }
+    }
   });
 }
 
@@ -230,6 +258,11 @@ function listenerOuvertureModal() {
 function listenerModalProjet() {
   document.querySelector(".close").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "none"; //Masque la modale
+    document.querySelector(".body_ombre").classList.remove("fond_ombre");
+    const tabWorks = document.querySelectorAll(".filtre_img");
+    for (let i = 0; i < tabWorks.length; i++) {
+      tabWorks[i].classList.remove("brightness_img");
+    }
   });
 }
 
@@ -242,6 +275,7 @@ function listenerGalerieAjouterPhoto() {
     document.querySelector(".modale_background").style.display = "none";
     document.querySelector(".ajout_projet").style.display = "flex";
     retourArrow();
+    closeModal2();
   });
 }
 
@@ -251,6 +285,18 @@ function retourArrow() {
   document.querySelector(".fa-arrow-left").addEventListener("click", () => {
     document.querySelector(".ajout_projet").style.display = "none";
     document.querySelector(".modale_background").style.display = "flex";
+  });
+}
+
+// === Fonction fermeture modale2 avec la croix ===
+function closeModal2() {
+  document.querySelector(".close2").addEventListener("click", () => {
+    document.querySelector(".ajout_projet").style.display = "none"; //Masque la modale
+    document.querySelector(".body_ombre").classList.remove("fond_ombre");
+    const tabWorks = document.querySelectorAll(".filtre_img");
+    for (let i = 0; i < tabWorks.length; i++) {
+      tabWorks[i].classList.remove("brightness_img");
+    }
   });
 }
 
