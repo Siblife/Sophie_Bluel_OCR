@@ -129,11 +129,23 @@ table {
 }
 /** end reset css**/
 body {
-  max-width: 1140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
   position: relative;
+}
+
+.body_ombre {
+  max-width: 1140px;
+}
+
+.login a {
+  text-decoration: none;
+  color: black;
 }
 header {
   display: flex;
@@ -269,7 +281,7 @@ footer nav ul {
 }
 
 .hidden {
-  display: none; 
+  display: none;
 }
 
 .brightness_img {
@@ -309,7 +321,7 @@ footer nav ul {
   color: #1d6154;
 }
 
-.filtre_bouton.active {
+.btnActive {
   background-color: #1d6154;
   color: white;
 }

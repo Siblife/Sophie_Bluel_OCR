@@ -81,23 +81,35 @@ function apiCategorie() {
       // Ajouter l'événement 'click' sur chaque bouton pour filtrer les projets
       const boutons = document.querySelectorAll(".filtre_bouton");
       boutons.forEach((button) => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", (event) => {
           const id = button.dataset.id; // Récupère l'ID de la catégorie du bouton
 
           // Filtre les projets selon l'ID de la catégorie
           if (id === "0") {
             // Si "Tous" est sélectionné, on affiche tous les projets
             displayWorks(allWorks);
+            filtreClicActif (event);
           } else {
             // Sinon, on filtre les projets de la catégorie sélectionnée
             const projetsFiltres = allWorks.filter(
               (work) => work.categoryId === parseInt(id)
             );
             displayWorks(projetsFiltres);
+            filtreClicActif (event);
           }
         });
       });
     });
+}
+
+//fonction pour filtre reste sur la catégorie
+
+function filtreClicActif (event) {
+  const filtreBtn = document.querySelectorAll(".filtre_bouton");
+  for(let i = 0; i < filtreBtn.length; i++) {
+    filtreBtn[i].classList.remove("btnActive");
+  }
+  event.target.classList.add("btnActive");
 }
 
 // === Ajout des catégories dans une balise <select> ===
@@ -201,6 +213,11 @@ function ajouterProjet(image, title, category) {
       document.querySelector(".ajouter_photo p").style.display = "flex";
       document.querySelector(".ajouter_photo img").remove();
       formulairePhoto.reset();
+      document.querySelector(".ombre").classList.remove("fond_ombre");
+      const tabWorks = document.querySelectorAll(".filtre_img");
+      for (let i = 0; i < tabWorks.length; i++) {
+        tabWorks[i].classList.remove("brightness_img");
+      }
       apiWorks(); // Recharge les projets pour mettre à jour la galerie
     })
     .catch((error) => {
@@ -216,7 +233,7 @@ function ajouterProjet(image, title, category) {
 function listenerOuvertureModal() {
   document.querySelector(".modifier").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "flex"; // Affiche la modale
-    document.querySelector(".body_ombre").classList.add("fond_ombre");
+    document.querySelector(".ombre").classList.add("fond_ombre");
     const tabWorks = document.querySelectorAll(".filtre_img");
     for (let i = 0; i < tabWorks.length; i++) {
       tabWorks[i].classList.add("brightness_img");
@@ -225,7 +242,7 @@ function listenerOuvertureModal() {
   });
   document.querySelector(".edition_mode").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "flex"; // Affiche la modale
-    document.querySelector(".body_ombre").classList.add("fond_ombre");
+    document.querySelector(".ombre").classList.add("fond_ombre");
     listenerModalProjet();
     const tabWorks = document.querySelectorAll(".filtre_img");
     for (let i = 0; i < tabWorks.length; i++) {
@@ -233,16 +250,19 @@ function listenerOuvertureModal() {
     }
   });
 
-  
   const modale1 = document.querySelector(".modale_background");
   const modale2 = document.querySelector(".ajout_projet");
 
   document.addEventListener("click", (event) => {
-    if (!modale1.contains(event.target) && !modale2.contains(event.target) && !document.querySelector(".modifier").contains(event.target)
-    && !document.querySelector(".edition_mode").contains(event.target)) {
+    if (
+      !modale1.contains(event.target) &&
+      !modale2.contains(event.target) &&
+      !document.querySelector(".modifier").contains(event.target) &&
+      !document.querySelector(".edition_mode").contains(event.target)
+    ) {
       modale1.style.display = "none"; // Masque la première modale
       modale2.style.display = "none"; // Masque la deuxième modale
-      document.querySelector(".body_ombre").classList.remove("fond_ombre");
+      document.querySelector(".ombre").classList.remove("fond_ombre");
       const tabWorks = document.querySelectorAll(".filtre_img");
       for (let i = 0; i < tabWorks.length; i++) {
         tabWorks[i].classList.remove("brightness_img");
@@ -258,7 +278,7 @@ function listenerOuvertureModal() {
 function listenerModalProjet() {
   document.querySelector(".close").addEventListener("click", () => {
     document.querySelector(".modale_background").style.display = "none"; //Masque la modale
-    document.querySelector(".body_ombre").classList.remove("fond_ombre");
+    document.querySelector(".ombre").classList.remove("fond_ombre");
     const tabWorks = document.querySelectorAll(".filtre_img");
     for (let i = 0; i < tabWorks.length; i++) {
       tabWorks[i].classList.remove("brightness_img");
@@ -292,7 +312,7 @@ function retourArrow() {
 function closeModal2() {
   document.querySelector(".close2").addEventListener("click", () => {
     document.querySelector(".ajout_projet").style.display = "none"; //Masque la modale
-    document.querySelector(".body_ombre").classList.remove("fond_ombre");
+    document.querySelector(".ombre").classList.remove("fond_ombre");
     const tabWorks = document.querySelectorAll(".filtre_img");
     for (let i = 0; i < tabWorks.length; i++) {
       tabWorks[i].classList.remove("brightness_img");
