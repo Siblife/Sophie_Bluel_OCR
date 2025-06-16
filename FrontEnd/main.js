@@ -66,6 +66,7 @@ function apiCategorie() {
       btnTous.classList.add("filtre_bouton");
       btnTous.textContent = "Tous";
       btnTous.dataset.id = "0"; // ID = 0 pour "Tous"
+      btnTous.classList.add("btnActive"); // Sélectionné par défaut
       filtre.appendChild(btnTous);
       // Création des boutons pour chaque catégorie
       data.forEach((categorie) => {
@@ -88,14 +89,14 @@ function apiCategorie() {
           if (id === "0") {
             // Si "Tous" est sélectionné, on affiche tous les projets
             displayWorks(allWorks);
-            filtreClicActif (event);
+            filtreClicActif(event);
           } else {
             // Sinon, on filtre les projets de la catégorie sélectionnée
             const projetsFiltres = allWorks.filter(
               (work) => work.categoryId === parseInt(id)
             );
             displayWorks(projetsFiltres);
-            filtreClicActif (event);
+            filtreClicActif(event);
           }
         });
       });
@@ -104,9 +105,9 @@ function apiCategorie() {
 
 //fonction pour filtre reste sur la catégorie
 
-function filtreClicActif (event) {
+function filtreClicActif(event) {
   const filtreBtn = document.querySelectorAll(".filtre_bouton");
-  for(let i = 0; i < filtreBtn.length; i++) {
+  for (let i = 0; i < filtreBtn.length; i++) {
     filtreBtn[i].classList.remove("btnActive");
   }
   event.target.classList.add("btnActive");
