@@ -229,7 +229,7 @@ function ajouterProjet(image, title, category) {
 
 // === Fonction d'écoute pour l'ouverture de la modale ===
 // Cette fonction ajoute des écouteurs d'événements sur les boutons "modifier" et "édition".
-// Lorsqu'un bouton est cliqué, elle affiche la modale et initialise l'écouteur de fermeture.
+// Lorsqu'un bouton est cliqué, elle affiche la modale et initialise l'evenement de fermeture.
 
 function listenerOuvertureModal() {
   document.querySelector(".modifier").addEventListener("click", () => {
