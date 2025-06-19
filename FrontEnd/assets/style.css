@@ -355,7 +355,7 @@ footer nav ul {
 
 .modale_background {
   position: fixed;
-  top: 35%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -30%);
   width: 660px;
@@ -437,7 +437,7 @@ h3 {
 
 .ajout_projet {
   position: fixed;
-  top: 35%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -30%);
   width: 660px;
